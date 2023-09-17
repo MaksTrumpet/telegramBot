@@ -1,20 +1,28 @@
 package com.example.demonumber999;
 
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+
+@Slf4j
 public class MySuperBot extends TelegramLongPollingBot {
-    private static final String TOKEN = "6476543919:AAGvk3FbjZIY7ytq6U0iq73CMd5xQbOOMNI";
-    private static final String USERNAME = "My1FirstSpringBot";
 
-    public MySuperBot(DefaultBotOptions options) {
+    private final String TOKEN;
+    private final String USERNAME;
+
+    public MySuperBot(DefaultBotOptions options, String token, String username) {
         super(options);
-
+        this.TOKEN = token;
+        this.USERNAME = username;
 
     }
+
 
     public String getBotToken() {
         return TOKEN;
@@ -31,7 +39,7 @@ public class MySuperBot extends TelegramLongPollingBot {
             try {
                 execute(new SendMessage(String.valueOf(chat_id), "Hi " + update.getMessage().getText()));
             } catch (TelegramApiException e) {
-                e.printStackTrace();
+                log.error("Error sending message", e);
             }
         }
     }
